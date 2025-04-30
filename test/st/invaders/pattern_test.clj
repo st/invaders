@@ -9,29 +9,29 @@
 
 (deftest nb-signals-detected-test
   (testing "Simple pattern detection"
-    (is (= 3 (p/nb-signals-detected
+    (is (= 3 (p/nb-signals-matching
                [[\- \- \-]
                 [\- \o \-]
                 [\o \- \o]]
                hat-pattern)))
-    (is (= 0 (p/nb-signals-detected
+    (is (= 2 (p/nb-signals-matching
                [[\- \- \-]
                 [\- \- \-]
                 [\o \- \o]]
                hat-pattern))))
   (testing "Pattern detection with extra signals"
-    (is (= 3 (p/nb-signals-detected
+    (is (= 3 (p/nb-signals-matching
                [[\- \o \-]
                 [\- \o \-]
                 [\o \- \o]]
                hat-pattern))))
   (testing "Pattern detection with noise"
-    (is (= 2 (p/nb-signals-detected
+    (is (= 2 (p/nb-signals-matching
                [[\- \- \-]
                 [\- \O \-]
                 [\o \- \o]]
                hat-pattern)))
-    (is (= 3 (p/nb-signals-detected
+    (is (= 3 (p/nb-signals-matching
                [[\- \- \-]
                 [\- \o \O]
                 [\o \- \o]]

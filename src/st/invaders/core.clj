@@ -3,7 +3,7 @@
     [st.invaders.grid :as grid]
     [st.invaders.pattern :as p]))
 
-(def ratio-signals-for-detection 1.0)
+(def ratio-signals-for-detection 0.7)
 
 (defn detect-at
   [radar-sample i j pattern]
@@ -16,7 +16,7 @@
         radar-clip (grid/clip radar-sample i j dim-i-pattern dim-j-pattern)
         pattern-clip (grid/clip pattern-grid 0 0 (grid/dim-i radar-clip) (grid/dim-j radar-clip))]
 
-    (when (<= min-nb-signals-detected (p/nb-signals-detected radar-clip pattern-clip))
+    (when (<= min-nb-signals-detected (p/nb-signals-matching radar-clip pattern-clip))
       {:location [i j]
        :id       (:id pattern)})))
 
@@ -36,5 +36,4 @@
                   detections)
           ))
       {}
-      all-coordinates)
-    ))
+      all-coordinates)))

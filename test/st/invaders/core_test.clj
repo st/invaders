@@ -1,39 +1,25 @@
 (ns st.invaders.core-test
   (:require
-    [clojure.test :refer [deftest is testing]]
-    [st.invaders.pattern :as p]))
+    [clojure.test :refer [deftest is]]
+    [st.invaders.core :as inv]))
 
-(def beast-hat-pattern [[\- \- \-]
-                        [\- \o \-]
-                        [\o \- \o]])
+(def hat-pattern {:id "hat" :grid [[\- \- \-]
+                                   [\- \o \-]
+                                   [\o \- \o]]})
 
-(deftest detect-pattern?-test
-  (testing "Simple pattern detection"
-    (is (p/detect-pattern?
-          [[\- \- \-]
-           [\- \o \-]
-           [\o \- \o]]
-          beast-hat-pattern))
-    (is (not (p/detect-pattern?
-               [[\- \- \-]
-                [\- \- \-]
-                [\o \- \o]]
-               beast-hat-pattern))))
-  (testing "Pattern detection with extra signals"
-    (is (p/detect-pattern?
-          [[\- \o \-]
-           [\- \o \-]
-           [\o \- \o]]
-          beast-hat-pattern)))
-  (testing "Pattern detection with noise"
-    (is (p/detect-pattern?
-          [[\- \- \-]
-           [\- \O \-]
-           [\o \- \o]]
-          beast-hat-pattern))
-    (is (p/detect-pattern?
-          [[\- \- \-]
-           [\- \o \O]
-           [\o \- \o]]
-          beast-hat-pattern)))
+(def line-pattern {:id "line" :grid [[\o \o \o]]})
+
+(deftest locations-test
+  (is (= {[1 0] ["hat"]}
+         (inv/locations [[\- \- \- \-]
+                         [\- \- \o \-]
+                         [\- \o \- \o]]
+                        [hat-pattern])))
+
+  (is (= {[1 0] ["hat"]
+          [1 2] ["line"]}
+         (inv/locations [[\- \- \- \-]
+                         [\- \- \o \-]
+                         [\- \o \o \o]]
+                        [hat-pattern line-pattern])))
   )

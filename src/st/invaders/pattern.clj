@@ -7,22 +7,35 @@
   [cell]
   (= signal-cell cell))
 
-(defn noise-cell?
+(defn empty-cell?
   [cell]
-  (not (#{signal-cell empty-cell} cell)))
+  (= empty-cell cell))
 
-(defn cells-matches?
-  [grid-cell pattern-cell]
-  (or
-    (signal-cell? grid-cell)
-    (noise-cell? grid-cell)
-    (= grid-cell pattern-cell)))
+(defn nb-signals-detected
+  "Returns the number of signals present in radar-grid and matching pattern-grid.
+  When an expected pattern signal is missing returns 0."
+  [radar-grid pattern-grid]
+  (let [radar-cells (flatten radar-grid)
+        pattern-cells (flatten pattern-grid)]
 
-(defn detect-pattern?
-  "grid and pattern have the same dimension"
-  [grid pattern]
-  (let [grid-data (flatten grid)
-        pattern-data (flatten pattern)]
-    (->> (map (fn [grid-cell pattern-cell] (cells-matches? grid-cell pattern-cell))
-              grid-data pattern-data)
-         (every? true?))))
+    (loop [[radar-cell & other-radar-cells] radar-cells
+           [pattern-cell & other-pattern-cells] pattern-cells
+           res 0]
+
+      (if radar-cell
+        (cond
+          (and (signal-cell? pattern-cell) (empty-cell? radar-cell))
+          0
+
+          (and (signal-cell? pattern-cell) (signal-cell? radar-cell))
+          (recur other-radar-cells other-pattern-cells (inc res))
+
+          :else
+          (recur other-radar-cells other-pattern-cells res))
+        res))))
+
+(defn nb-signals
+  [grid]
+  (->> (flatten grid)
+       (filter signal-cell?)
+       count))

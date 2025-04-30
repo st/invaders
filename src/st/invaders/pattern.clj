@@ -15,3 +15,7 @@
   (->> (flatten grid)
        (filter #{signal-cell})
        count))
+
+(defn make-pattern
+  [id grid]
+  {:id id :grid grid})

@@ -16,9 +16,9 @@
         confidence (/ nb-matching nb-signals-pattern)]
 
     (when (<= threshold-detection confidence)
-        {:location             [i j]
-         :id                   (:id pattern)
-         :detection-confidence confidence})))
+      {:location             [i j]
+       :id                   (:id pattern)
+       :detection-confidence confidence})))
 
 (defn locations
   [radar-sample invaders-patterns threshold-detection]
@@ -30,10 +30,8 @@
       (fn [res [i j]]
         (let [detections (->> (map #(detect-at radar-sample i j threshold-detection %) invaders-patterns)
                               (remove nil?))]
-          (reduce (fn [acc detection]
-                    (update acc (:location detection) (fnil conj []) detection))
+          (reduce conj
                   res
-                  detections)
-          ))
-      {}
+                  detections)))
+      []
       all-coordinates)))

@@ -12,9 +12,9 @@
   (count grid))
 
 (defn clip
-  [grid i j clip-height clip-width]
-  (let [bound-i (min (+ i clip-height) (dim-i grid))
-        bound-j (min (+ j clip-width) (dim-j grid))]
+  [grid i j width height]
+  (let [bound-i (min (+ i width) (dim-i grid))
+        bound-j (min (+ j height) (dim-j grid))]
     (->> (subvec grid j bound-j)
          (mapv (fn [row] (subvec row i bound-i))))))
 

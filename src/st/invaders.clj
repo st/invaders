@@ -18,9 +18,19 @@
   (println "Threshold detection : " threshold-detection)
 
   (let [radar-sample (grid/read-grid radar-filename)
-        invaders-patterns (mapv #(pattern/make-pattern % (grid/read-grid (str % ".txt"))) ["jellyfish" "robot"])
+        robot-grid (grid/read-grid "robot.txt")
+        jellyfish-grid (grid/read-grid "jellyfish.txt")
+        robot-pattern (pattern/make-pattern "robot" robot-grid)
+        jellyfish-pattern (pattern/make-pattern "jellyfish" jellyfish-grid)
+        invaders-patterns [robot-pattern jellyfish-pattern]
         locations (inv/locations radar-sample invaders-patterns threshold-detection)]
 
+    (grid/display robot-grid)
+    (println)
+    (grid/display jellyfish-grid)
+    (println)
+    (grid/display radar-sample)
+    (println)
     (pp/print-table (mapv format-location locations))))
 
 (defn -main

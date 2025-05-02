@@ -1,7 +1,18 @@
 (ns st.invaders.grid
   (:require
     [clojure.java.io :as io]
-    [clojure.string :as s]))
+    [clojure.string :as s]
+    [clojure.term.colors :as color]))
+
+;; A grid is a vector of vectors (same dimension for all)
+;; e.g
+;; [  [:a :b :c]
+;;    [:a :b :c] ]
+;;
+;; Conventions in namings:
+;;
+;; i represents the column index
+;; j represents the row index
 
 (defn dim-i
   [grid]
@@ -25,3 +36,12 @@
        slurp
        s/split-lines
        (mapv vec)))
+
+(defn display
+  [grid]
+  (doseq [row grid]
+    (doseq [cell row]
+      (print (if (= \o cell)
+               (color/on-white " ")
+               (color/on-blue " "))))
+    (println)))

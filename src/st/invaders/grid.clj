@@ -31,6 +31,8 @@
   (count grid))
 
 (defn clip
+  "Returns a subgrid with top-left corner at [i j] and dimensions `width` * `height` inside `grid`.
+  If the result subgrid extends beyond `grid`, it is truncated."
   [grid i j width height]
   (let [bound-i (min (+ i width) (dim-i grid))
         bound-j (min (+ j height) (dim-j grid))]

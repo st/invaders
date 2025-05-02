@@ -80,3 +80,22 @@
                          [\- \o \- \o]]
                          [hat-pattern line-pattern]
                          0.6))))
+
+
+(comment
+
+  ;; Initial version
+  ;; Execution time mean : 957 ms
+
+  (cri/quick-bench
+    (doall (inv/detections (grid/read-grid "radar-sample.txt")
+                           [robot-pattern jellyfish-pattern]
+                           0.7)))
+  ;; Evaluation count : 6 in 6 samples of 1 calls.
+  ;; Execution time mean : 130.633113 ms
+  ;; Execution time std-deviation : 18.925389 ms
+  ;; Execution time lower quantile : 111.305388 ms ( 2.5%)
+  ;; Execution time upper quantile : 153.666419 ms (97.5%)
+  ;; Overhead used : 6.584589 ns
+
+  )

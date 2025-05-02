@@ -20,7 +20,7 @@
        :id                   (:id pattern)
        :detection-confidence confidence})))
 
-(defn locations
+(defn detections
   [radar-sample invaders-patterns threshold-detection]
   (let [dim-j (count radar-sample)
         dim-i (count (first radar-sample))

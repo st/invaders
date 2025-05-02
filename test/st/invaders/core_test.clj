@@ -11,30 +11,30 @@
 (def robot-pattern (pattern/make-pattern "robot" (grid/read-grid "robot.txt")))
 (def jellyfish-pattern (pattern/make-pattern "jellyfish" (grid/read-grid "jellyfish.txt")))
 
-(deftest locations-test
+(deftest detections-test
   (testing "detection confidence"
     (is (= [{:location             [1 1]
              :id                   "hat"
              :detection-confidence 1}]
-           (inv/locations [[\- \- \- \-]
+           (inv/detections [[\- \- \- \-]
                            [\- \- \o \-]
                            [\- \o \- \o]]
-                          [hat-pattern]
-                          0.7)))
+                           [hat-pattern]
+                           0.7)))
     (is (= [{:location             [1 1]
              :id                   "hat"
              :detection-confidence 2/3}]
-           (inv/locations [[\- \- \- \-]
+           (inv/detections [[\- \- \- \-]
                            [\- \- \o \-]
                            [\- \o \- \-]]
-                          [hat-pattern]
-                          0.6)))
+                           [hat-pattern]
+                           0.6)))
     (is (= []
-           (inv/locations [[\- \- \- \-]
+           (inv/detections [[\- \- \- \-]
                            [\- \- \o \-]
                            [\- \o \- \-]]
-                          [hat-pattern]
-                          0.7))))
+                           [hat-pattern]
+                           0.7))))
 
   (is (= [{:location             [1 1]
            :id                   "hat"
@@ -42,11 +42,11 @@
           {:location             [1 2]
            :id                   "line"
            :detection-confidence 1}]
-         (inv/locations [[\- \- \- \-]
+         (inv/detections [[\- \- \- \-]
                          [\- \- \o \-]
                          [\- \o \o \o]]
-                        [hat-pattern line-pattern]
-                        0.7)))
+                         [hat-pattern line-pattern]
+                         0.7)))
 
   (testing "Given example"
     (is (= [{:location [16 28], :id "jellyfish", :detection-confidence 11/12}
@@ -57,9 +57,9 @@
             {:location [77 2], :id "jellyfish", :detection-confidence 13/18}
             {:location [82 41], :id "jellyfish", :detection-confidence 8/9}
             {:location [85 12], :id "robot", :detection-confidence 20/23}]
-           (inv/locations (grid/read-grid "radar-sample.txt")
-                          [robot-pattern jellyfish-pattern]
-                          0.7))))
+           (inv/detections (grid/read-grid "radar-sample.txt")
+                           [robot-pattern jellyfish-pattern]
+                           0.7))))
   )
 
 (deftest locations-overlap-test
@@ -75,8 +75,8 @@
           {:detection-confidence 2/3
            :id                   "line"
            :location             [1 2]}]
-         (inv/locations [[\- \- \- \-]
+         (inv/detections [[\- \- \- \-]
                          [\- \o \o \-]
                          [\- \o \- \o]]
-                        [hat-pattern line-pattern]
-                        0.6))))
+                         [hat-pattern line-pattern]
+                         0.6))))

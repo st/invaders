@@ -3,12 +3,13 @@
     [clojure.pprint :as pp]
     [st.invaders.core :as inv]
     [st.invaders.grid :as grid]
-    [st.invaders.pattern :as pattern])
+    [st.invaders.pattern :as pattern]
+    [st.invaders.ui :as ui])
   (:gen-class))
 
-(defn format-location
-  [location]
-  (-> location
+(defn format-detection
+  [detection]
+  (-> detection
       (update :detection-confidence #(format "%.2f %%" (double %)))))
 
 (defn display-locations
@@ -18,20 +19,25 @@
   (println "Threshold detection : " threshold-detection)
 
   (let [radar-sample (grid/read-grid radar-filename)
+
         robot-grid (grid/read-grid "robot.txt")
         jellyfish-grid (grid/read-grid "jellyfish.txt")
         robot-pattern (pattern/make-pattern "robot" robot-grid)
         jellyfish-pattern (pattern/make-pattern "jellyfish" jellyfish-grid)
-        invaders-patterns [robot-pattern jellyfish-pattern]
-        locations (inv/locations radar-sample invaders-patterns threshold-detection)]
 
-    (grid/display robot-grid)
+        invaders-patterns [robot-pattern jellyfish-pattern]
+
+        detections (inv/detections radar-sample invaders-patterns threshold-detection)]
+
+    (ui/display robot-grid)
     (println)
-    (grid/display jellyfish-grid)
+    (ui/display jellyfish-grid)
     (println)
-    (grid/display radar-sample)
+    (ui/display radar-sample)
     (println)
-    (pp/print-table (mapv format-location locations))))
+    (ui/display-with-detections radar-sample invaders-patterns detections)
+    (println)
+    (pp/print-table (mapv format-detection detections))))
 
 (defn -main
   [& args]

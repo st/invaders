@@ -30,10 +30,6 @@
   [grid]
   (count grid))
 
-(defn cell-at
-  [grid i j]
-  (nth (nth grid j) i))
-
 (defn clip
   [grid i j width height]
   (let [bound-i (min (+ i width) (dim-i grid))

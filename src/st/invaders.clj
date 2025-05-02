@@ -1,7 +1,7 @@
 (ns st.invaders
   (:require
     [clojure.pprint :as pp]
-    [st.invaders.core :as inv]
+    [st.invaders.detect :as inv]
     [st.invaders.grid :as grid]
     [st.invaders.pattern :as pattern]
     [st.invaders.ui :as ui])

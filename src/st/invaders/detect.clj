@@ -1,4 +1,4 @@
-(ns st.invaders.core
+(ns st.invaders.detect
   (:require
     [st.invaders.grid :as grid]
     [st.invaders.pattern :as p]))

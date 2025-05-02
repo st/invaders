@@ -1,7 +1,7 @@
-(ns st.invaders.core-test
+(ns st.invaders.detect-test
   (:require
     [clojure.test :refer [deftest is testing]]
-    [st.invaders.core :as inv]
+    [st.invaders.detect :as inv]
     [st.invaders.grid :as grid]
     [st.invaders.pattern :as pattern]))
 

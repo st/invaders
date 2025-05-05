@@ -1,6 +1,6 @@
 (ns st.invaders.pattern)
 
-;; A pattern is a named grid with simple matching functions
+;; A pattern is a named grid with matching functions
 
 (def signal-cell \o)
 

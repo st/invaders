@@ -6,6 +6,7 @@
     [st.invaders.detect :as inv]
     [st.invaders.grid :as grid]
     [st.invaders.pattern :as pattern]
+    [st.invaders.transform :as t]
     [st.invaders.ui :as ui]
     [clojure.tools.cli :as cli])
   (:gen-class))
@@ -26,9 +27,11 @@
 
         invaders-patterns [robot-pattern jellyfish-pattern]
 
-        detections (if extra-transform
-                     (inv/detections-with-transformations radar-sample invaders-patterns threshold)
-                     (inv/detections radar-sample invaders-patterns threshold))]
+        invaders-patterns (if extra-transform
+                            (mapcat t/derive-pattern invaders-patterns)
+                            invaders-patterns)
+
+        detections (inv/detections radar-sample invaders-patterns threshold)]
 
     (println "PARAMETERS")
     (pp/print-table [options])
@@ -37,9 +40,10 @@
     (pp/print-table (mapv format-detection detections))
 
     (println "INVADERS")
-    (ui/display robot-grid)
-    (println)
-    (ui/display jellyfish-grid)
+    (doseq [p invaders-patterns]
+      (ui/display (:grid p))
+      (println))
+
     (println "RADAR-SAMPLE")
     (ui/display radar-sample)
     (println "RADAR-SAMPLE WITH DETECTIONS")

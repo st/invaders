@@ -39,19 +39,19 @@
   (is (= [{:grid      [[\_ \o]
                        [\o \o]]
            :id        "p1"
-           :transform "regular"}
+           :transformation "regular"}
           {:grid      [[\o \_]
                        [\o \o]]
            :id        "p1"
-           :transform "flip-vertical"}
+           :transformation "flip-vertical"}
           {:grid      [[\o \o]
                        [\_ \o]]
            :id        "p1"
-           :transform "flip-horizontal"}
+           :transformation "flip-horizontal"}
           {:grid      [[\o \o]
                        [\o \_]]
            :id        "p1"
-           :transform "flip-both"}]
+           :transformation "flip-both"}]
          (t/derive-pattern (p/make-pattern "p1"
                                            [[\_ \o]
                                             [\o \o]]))))
@@ -59,11 +59,11 @@
     (is (= [{:grid      [[\_ \_]
                          [\o \o]]
              :id        "p1"
-             :transform "regular"}
+             :transformation "regular"}
             {:grid      [[\o \o]
                          [\_ \_]]
              :id        "p1"
-             :transform "flip-horizontal"}]
+             :transformation "flip-horizontal"}]
            (t/derive-pattern (p/make-pattern "p1"
                                              [[\_ \_]
                                               [\o \o]])))))

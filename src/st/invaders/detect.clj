@@ -1,8 +1,7 @@
 (ns st.invaders.detect
   (:require
     [st.invaders.grid :as grid]
-    [st.invaders.pattern :as p]
-    [st.invaders.transform :as t]))
+    [st.invaders.pattern :as p]))
 
 (defn detect-at
   "Returns a detection when the coordinate [i j] is the top-left corner of a clip matching the pattern.
@@ -28,8 +27,8 @@
       (let [detection {:location             [i j]
                        :id                   (:id pattern)
                        :detection-confidence confidence}]
-        (if (:transform pattern)
-          (assoc detection :transformation (:transform pattern))
+        (if (:transformation pattern)
+          (assoc detection :transformation (:transformation pattern))
           detection)))))
 
 (defn detections
@@ -51,9 +50,3 @@
                                   (pmap (fn [pattern] (detect-at radar-sample i j threshold-detection pattern)))
                                   (remove nil?))))
          (remove empty?))))
-
-(defn detections-with-transformations
-  [radar-sample invaders-patterns threshold-detection]
-  (detections radar-sample
-              (mapcat t/derive-pattern invaders-patterns)
-              threshold-detection))

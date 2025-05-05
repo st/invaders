@@ -22,7 +22,7 @@
   [grid invaders-patterns invaders-detections]
   (let [invaders-patterns (mapv change-signal invaders-patterns)
         invaders-patterns-map (reduce
-                                (fn [m p] (assoc m (:id p) p))
+                                (fn [m p] (assoc m (str (:id p) "-" (:transformation p)) p))
                                 {}
                                 invaders-patterns)
         grid-overlapped (reduce
@@ -30,7 +30,8 @@
                             (grid/replace-at grid
                                              (first (:location detection))
                                              (second (:location detection))
-                                             (:grid (get invaders-patterns-map (:id detection)))))
+                                             (:grid (get invaders-patterns-map
+                                                         (str (:id detection) "-" (:transformation detection))))))
                           grid
                           invaders-detections)]
     (doseq [row grid-overlapped]

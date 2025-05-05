@@ -1,70 +1,51 @@
 # st/invaders
 
-This project 
-
 ## Installation
 
 Download from https://github.com/st/invaders
 
 ## Usage
 
-FIXME: explanation
+    $ clojure -M:run-m -r .../radar-sample.txt [-t threshold] [-x]
 
-Run the project directly, via `:exec-fn`:
+This will display:
+* the parameters used to run the application
+* the detections in a table
+* the ASCII representions of the detectable invaders (with their transformations if any)
+* the original radar sample
+* the radar sample overloaded with the detected invaders in red.
 
-    $ clojure -X:run-x
-    Hello, Clojure!
-
-Run the project, overriding the name to be greeted:
-
-    $ clojure -X:run-x :name '"Someone"'
-    Hello, Someone!
-
-Run the project directly, via `:main-opts` (`-m st.invaders`):
-
-    $ clojure -M:run-m
-    Hello, World!
-
-Run the project, overriding the name to be greeted:
-
-    $ clojure -M:run-m Via-Main
-    Hello, Via-Main!
-
-Run the project's tests (they'll fail until you edit them):
+Run the project's tests:
 
     $ clojure -T:build test
 
-Run the project's CI pipeline and build an uberjar (this will fail until you edit the tests to pass):
-
-    $ clojure -T:build ci
-
-This will produce an updated `pom.xml` file with synchronized dependencies inside the `META-INF`
-directory inside `target/classes` and the uberjar in `target`. You can update the version (and SCM tag)
-information in generated `pom.xml` by updating `build.clj`.
-
-If you don't want the `pom.xml` file in your project, you can remove it. The `ci` task will
-still generate a minimal `pom.xml` as part of the `uber` task, unless you remove `version`
-from `build.clj`.
-
-Run that uberjar:
-
-    $ java -jar target/net.clojars.st/invaders-0.1.0-SNAPSHOT.jar
-
-## Options
-
-FIXME: listing of options this app accepts.
-
 ## Examples
 
-...
+    $ clojure -M:run-m -h 
+    > Will display usage
 
-### Bugs
+    $ clojure -M:run-m -r .../radar-sample.txt
+    > Will run with default options
 
-...
+    $ clojure -M:run-m -r .../radar-sample.txt -t 0.9
+    > Will run with a threshold detection set to 90%. 
+    Allowed threshold are in the range [0.5 1.0], the lower the value the more likely the multiple detections of
+    invaders at close locations.
 
-### Any Other Sections
-### That You Think
-### Might be Useful
+    $ clojure -M:run-m -r .../radar-sample.txt -t 0.7 -x
+    > Will also detects flipped versions of invaders   
+
+## Remarks
+
+### Algorithm
+
+The algorithm used is brute force and not performance oriented.
+Each pixel of the radar sample is examined by comparing clips from radar with patterns. 
+I stick to idiomatic Clojure and a limited set of dependencies.
+
+### AI?
+
+I decided not to ask chatgpt any help. There are likely much better algorithms out there!
 
 ## License
 

@@ -37,7 +37,7 @@
 (defn transform-pattern
   [pattern transformation]
   (-> pattern
-      (assoc :transform (:name transformation))
+      (assoc :transformation (:name transformation))
       (update :grid (:fn transformation))))
 
 (defn distinct-on-grid

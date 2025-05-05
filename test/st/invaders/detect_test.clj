@@ -3,7 +3,8 @@
     [clojure.test :refer [deftest is testing]]
     [st.invaders.detect :as inv]
     [st.invaders.grid :as grid]
-    [st.invaders.pattern :as pattern]))
+    [st.invaders.pattern :as pattern]
+    [st.invaders.transform :as t]))
 
 (def hat-pattern (pattern/make-pattern "hat" [[\- \o \-]
                                               [\o \- \o]]))
@@ -110,11 +111,11 @@
            :id                   "hat"
            :location             [2 1]
            :transformation       "flip-horizontal"}]
-         (inv/detections-with-transformations [[\- \- \- \-]
-                                               [\- \o \o \-]
-                                               [\- \o \- \o]]
-                                              [hat-pattern line-pattern]
-                                              0.6)))
+         (inv/detections [[\- \- \- \-]
+                          [\- \o \o \-]
+                          [\- \o \- \o]]
+                         (mapcat t/derive-pattern [hat-pattern line-pattern])
+                         0.6)))
   )
 
 (comment

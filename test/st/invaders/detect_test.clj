@@ -17,22 +17,22 @@
              :id                   "hat"
              :detection-confidence 1}]
            (inv/detections [[\- \- \- \-]
-                           [\- \- \o \-]
-                           [\- \o \- \o]]
+                            [\- \- \o \-]
+                            [\- \o \- \o]]
                            [hat-pattern]
                            0.7)))
     (is (= [{:location             [1 1]
              :id                   "hat"
              :detection-confidence 2/3}]
            (inv/detections [[\- \- \- \-]
-                           [\- \- \o \-]
-                           [\- \o \- \-]]
+                            [\- \- \o \-]
+                            [\- \o \- \-]]
                            [hat-pattern]
                            0.6)))
     (is (= []
            (inv/detections [[\- \- \- \-]
-                           [\- \- \o \-]
-                           [\- \o \- \-]]
+                            [\- \- \o \-]
+                            [\- \o \- \-]]
                            [hat-pattern]
                            0.7))))
 
@@ -43,8 +43,8 @@
            :id                   "line"
            :detection-confidence 1}]
          (inv/detections [[\- \- \- \-]
-                         [\- \- \o \-]
-                         [\- \o \o \o]]
+                          [\- \- \o \-]
+                          [\- \o \o \o]]
                          [hat-pattern line-pattern]
                          0.7)))
 
@@ -62,7 +62,7 @@
                            0.7))))
   )
 
-(deftest locations-overlap-test
+(deftest detections-overlap-test
   (is (= [{:detection-confidence 2/3
            :id                   "line"
            :location             [0 1]}
@@ -76,11 +76,46 @@
            :id                   "line"
            :location             [1 2]}]
          (inv/detections [[\- \- \- \-]
-                         [\- \o \o \-]
-                         [\- \o \- \o]]
+                          [\- \o \o \-]
+                          [\- \o \- \o]]
                          [hat-pattern line-pattern]
                          0.6))))
 
+(deftest detections-with-transformations-test
+  (is (= [{:detection-confidence 2/3
+           :id                   "hat"
+           :location             [0 1]
+           :transformation       "flip-horizontal"}
+          {:detection-confidence 2/3
+           :id                   "line"
+           :location             [0 1]
+           :transformation       "regular"}
+          {:detection-confidence 1
+           :id                   "hat"
+           :location             [1 1]
+           :transformation       "regular"}
+          {:detection-confidence 2/3
+           :id                   "line"
+           :location             [1 1]
+           :transformation       "regular"}
+          {:detection-confidence 2/3
+           :id                   "hat"
+           :location             [1 2]
+           :transformation       "flip-horizontal"}
+          {:detection-confidence 2/3
+           :id                   "line"
+           :location             [1 2]
+           :transformation       "regular"}
+          {:detection-confidence 2/3
+           :id                   "hat"
+           :location             [2 1]
+           :transformation       "flip-horizontal"}]
+         (inv/detections-with-transformations [[\- \- \- \-]
+                                               [\- \o \o \-]
+                                               [\- \o \- \o]]
+                                              [hat-pattern line-pattern]
+                                              0.6)))
+  )
 
 (comment
 
@@ -99,3 +134,4 @@
   ;; Overhead used : 6.584589 ns
 
   )
+

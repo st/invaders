@@ -10,8 +10,10 @@
            :run-m {:main-opts ["-m" "st.invaders"]}
 
            :run-x {:ns-default st.invaders
-                   :exec-fn    greet
-                   :exec-args  {:name "Clojure"}}
+                   :exec-fn    display-locations
+                   :exec-args  {:radar-filename "radar-sample.txt"
+                                :threshold-detection 0.7
+                                :with-transformations false}}
 
            :build {:deps       {io.github.clojure/tools.build
                                 {:mvn/version "0.9.6"}}

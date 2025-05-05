@@ -13,10 +13,9 @@
       (update :detection-confidence #(format "%.2f %%" (double %)))))
 
 (defn display-locations
-  [{:keys [radar-filename threshold-detection]}]
+  [{:keys [radar-filename threshold-detection with-transformations] :as args}]
 
-  (println "Radar sample        : " radar-filename)
-  (println "Threshold detection : " threshold-detection)
+  (pp/print-table [args])
 
   (let [radar-sample (grid/read-grid radar-filename)
 
@@ -27,8 +26,13 @@
 
         invaders-patterns [robot-pattern jellyfish-pattern]
 
-        detections (inv/detections radar-sample invaders-patterns threshold-detection)]
+        detections (if with-transformations
+                     (inv/detections-with-transformations radar-sample invaders-patterns threshold-detection)
+                     (inv/detections radar-sample invaders-patterns threshold-detection))]
 
+    (pp/print-table (mapv format-detection detections))
+
+    (println)
     (ui/display robot-grid)
     (println)
     (ui/display jellyfish-grid)
@@ -36,8 +40,7 @@
     (ui/display radar-sample)
     (println)
     (ui/display-with-detections radar-sample invaders-patterns detections)
-    (println)
-    (pp/print-table (mapv format-detection detections))))
+    (println)))
 
 (defn -main
   [& args]

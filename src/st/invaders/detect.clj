@@ -1,13 +1,15 @@
 (ns st.invaders.detect
   (:require
     [st.invaders.grid :as grid]
-    [st.invaders.pattern :as p]))
+    [st.invaders.pattern :as p]
+    [st.invaders.transform :as t]))
 
 (defn detect-at
   "Returns a detection when the coordinate [i j] is the top-left corner of a clip matching the pattern.
 
   `threshold-detection` is a float value.
-  e.g. For `threshold-detection` set to 0.6 and a pattern containing 10 signals, a given coordinate must match on at least 6 signal cells.
+  e.g. For `threshold-detection` set to 0.6 and a pattern containing 10 signals,
+  the clips at a given coordinate must match on at least 6 signal cells.
   "
   [radar-sample i j threshold-detection pattern]
   (let [pattern-grid (:grid pattern)
@@ -23,9 +25,12 @@
         confidence (/ nb-matching nb-signals-pattern)]
 
     (when (<= threshold-detection confidence)
-      {:location             [i j]
-       :id                   (:id pattern)
-       :detection-confidence confidence})))
+      (let [detection {:location             [i j]
+                       :id                   (:id pattern)
+                       :detection-confidence confidence}]
+        (if (:transform pattern)
+          (assoc detection :transformation (:transform pattern))
+          detection)))))
 
 (defn detections
   "Returns a lazy sequence of detections in the form
@@ -46,3 +51,9 @@
                                   (pmap (fn [pattern] (detect-at radar-sample i j threshold-detection pattern)))
                                   (remove nil?))))
          (remove empty?))))
+
+(defn detections-with-transformations
+  [radar-sample invaders-patterns threshold-detection]
+  (detections radar-sample
+              (mapcat t/derive-pattern invaders-patterns)
+              threshold-detection))

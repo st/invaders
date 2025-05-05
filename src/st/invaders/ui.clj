@@ -3,6 +3,8 @@
     [clojure.term.colors :as color]
     [st.invaders.grid :as grid]))
 
+;; Basic ASCII display with some coloring.
+
 (defn display
   [grid]
   (doseq [row grid]

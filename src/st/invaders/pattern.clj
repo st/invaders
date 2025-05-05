@@ -1,5 +1,7 @@
 (ns st.invaders.pattern)
 
+;; A pattern is a named grid with simple matching functions
+
 (def signal-cell \o)
 
 (def mem-flatten (memoize flatten))

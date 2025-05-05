@@ -8,8 +8,8 @@
 (def hat-pattern (pattern/make-pattern "hat" [[\- \o \-]
                                               [\o \- \o]]))
 (def line-pattern (pattern/make-pattern "line" [[\o \o \o]]))
-(def robot-pattern (pattern/make-pattern "robot" (grid/read-grid "robot.txt")))
-(def jellyfish-pattern (pattern/make-pattern "jellyfish" (grid/read-grid "jellyfish.txt")))
+(def robot-pattern (pattern/make-pattern "robot" (grid/parse-resource "robot.txt")))
+(def jellyfish-pattern (pattern/make-pattern "jellyfish" (grid/parse-resource "jellyfish.txt")))
 
 (deftest detections-test
   (testing "detection confidence"
@@ -57,7 +57,7 @@
             {:location [77 2], :id "jellyfish", :detection-confidence 13/18}
             {:location [82 41], :id "jellyfish", :detection-confidence 8/9}
             {:location [85 12], :id "robot", :detection-confidence 20/23}]
-           (inv/detections (grid/read-grid "radar-sample.txt")
+           (inv/detections (grid/parse-resource "radar-sample.txt")
                            [robot-pattern jellyfish-pattern]
                            0.7))))
   )
@@ -123,7 +123,7 @@
   ;; Execution time mean : 957 ms
 
   (cri/quick-bench
-    (doall (inv/detections (grid/read-grid "radar-sample.txt")
+    (doall (inv/detections (grid/parse-resource "radar-sample.txt")
                            [robot-pattern jellyfish-pattern]
                            0.7)))
   ;; Evaluation count : 6 in 6 samples of 1 calls.

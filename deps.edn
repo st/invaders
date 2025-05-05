@@ -2,6 +2,7 @@
 
  :deps    {
            org.clojure/clojure                     {:mvn/version "1.12.0"}
+           org.clojure/tools.cli                   {:mvn/version "1.1.230"}
            clojure-term-colors/clojure-term-colors {:mvn/version "0.1.0"}
            criterium/criterium                     {:mvn/version "0.4.6"}
            }
@@ -11,8 +12,8 @@
 
            :run-x {:ns-default st.invaders
                    :exec-fn    display-locations
-                   :exec-args  {:radar-filename "radar-sample.txt"
-                                :threshold-detection 0.7
+                   :exec-args  {:radar-filename       "radar-sample.txt"
+                                :threshold-detection  0.7
                                 :with-transformations false}}
 
            :build {:deps       {io.github.clojure/tools.build

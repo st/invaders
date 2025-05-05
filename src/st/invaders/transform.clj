@@ -2,6 +2,8 @@
   (:require
     [st.invaders.grid :as grid]))
 
+;; Used to create derived patterns (a pattern with grid transformed by geometric functions)
+
 (defn symmetry-vertical-axis
   [grid]
   (let [width (grid/dim-i grid)
@@ -39,6 +41,7 @@
       (update :grid (:fn transformation))))
 
 (defn distinct-on-grid
+  "Deduplicates the given patterns on their grids"
   [patterns]
   (loop [[p & other] patterns
          seen-grids #{}

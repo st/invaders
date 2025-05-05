@@ -1,6 +1,6 @@
 # st/invaders
 
-FIXME: my new application.
+This project 
 
 ## Installation
 

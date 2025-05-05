@@ -14,13 +14,24 @@
 ;; j represents the row index
 ;;
 
-(defn read-grid
-  [filename]
-  (->> filename
-       io/resource
+(defn parse-grid
+  [f]
+  (->> f
        slurp
        s/split-lines
        (mapv vec)))
+
+(defn parse-resource
+  [filename]
+  (->> filename
+       io/resource
+       parse-grid))
+
+(defn parse-file
+  [filename]
+  (->> filename
+       io/reader
+       parse-grid))
 
 (defn dim-i
   [grid]

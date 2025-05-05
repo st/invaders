@@ -25,15 +25,15 @@ Run the project's tests:
     > Will display usage
 
     $ clojure -M:run-m -r .../radar-sample.txt
-    > Will run with default options
+    > Will run with default options and the given radar sample
 
     $ clojure -M:run-m -r .../radar-sample.txt -t 0.9
     > Will run with a threshold detection set to 90%. 
-    Allowed threshold are in the range [0.5 1.0], the lower the value the more likely the multiple detections of
-    invaders at close locations.
+    Allowed thresholds are in the range [0.5 1.0].
+    A low value increases the likelihood of false positives: an invader is detected multiple times at close locations.
 
     $ clojure -M:run-m -r .../radar-sample.txt -t 0.7 -x
-    > Will also detects flipped versions of invaders   
+    > Will also detect flipped versions of invaders   
 
 ## Remarks
 
